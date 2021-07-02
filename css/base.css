@@ -9,6 +9,9 @@
 body {
     background-color: #f5f8f9;
 }
+button {
+    cursor: pointer;
+}
 nav {
     background-color: #fff;
     width: 100%;
@@ -20,6 +23,9 @@ nav .icon {
     float: right;
     margin-top: 45px;
     margin-right: 10px;
+}
+nav .icon .iconfont {
+    cursor: pointer;
 }
 nav .icon #notice {
     position: relative;
