@@ -1,25 +1,21 @@
 //封装ajax
-function ajax(url) {
+function ajax(url, callback) {
     var xhr = new XMLHttpRequest()
-    return new Promise(function (resolve, reject) {
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    resolve(xhr.responseText)
-                } else {
-                    reject(xhr.status)
-                }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                callback(JSON.parse(xhr.responseText))
             }
         }
-        xhr.open('get', url)
-        xhr.send()
-    })
+    }
+    xhr.open('GET', url)
+    xhr.send()
 }
-//加载数据
-window.onload = async function () {
-    let data = await ajax('https://edu.telking.com/api/?type=month')
-    let { data: monthData } = JSON.parse(data)
-    //线性图
+ajax('https://edu.telking.com/api/?type=month', function (data) {
+    generateLineChart(data.data)
+})
+//线性图
+function generateLineChart(lineData) {
     var lineChart = echarts.init(document.getElementById('line-echart'))
     var option = {
         title: {
@@ -30,7 +26,7 @@ window.onload = async function () {
         },
         xAxis: {
             type: 'category',
-            data: monthData.xAxis,
+            data: lineData.xAxis,
 
             axisLine: {
                 show: false,
@@ -50,7 +46,7 @@ window.onload = async function () {
         },
         series: [
             {
-                data: monthData.series,
+                data: lineData.series,
                 type: 'line',
                 color: '#4486ef',
                 smooth: true,
@@ -65,9 +61,13 @@ window.onload = async function () {
         ],
     }
     lineChart.setOption(option)
-    //饼状图
-    let weekData = await ajax('https://edu.telking.com/api/?type=week')
-    let { data: pieData } = JSON.parse(weekData)
+}
+ajax('https://edu.telking.com/api/?type=week', function (data) {
+    generatePieChart(data.data)
+    generateBarChart(data.data)
+})
+//饼状图
+function generatePieChart(pieData) {
     let pieList = []
     for (let i = 0; i < pieData.series.length; i++) {
         let value = pieData.series[i]
@@ -99,12 +99,15 @@ window.onload = async function () {
         ],
     }
     pieChart.setOption(pieOption)
-    //柱状图
+}
+
+//柱状图
+function generateBarChart(barData) {
     var barChart = echarts.init(document.getElementById('bar-echart'))
     var barOption = {
         xAxis: {
             type: 'category',
-            data: JSON.parse(weekData).data.xAxis,
+            data: barData.xAxis,
             axisLine: {
                 show: false,
             },
@@ -118,7 +121,7 @@ window.onload = async function () {
         },
         series: [
             {
-                data: JSON.parse(weekData).data.series,
+                data: barData.series,
                 type: 'bar',
                 barWidth: 20,
             },
@@ -130,10 +133,10 @@ window.onload = async function () {
 //滑块功能
 let headerRight = document.getElementsByClassName('header-right')
 let as = headerRight[0].getElementsByTagName('a')
-let animation = headerRight[0].getElementsByClassName('animation')
+let animation = headerRight[0].getElementsByClassName('animation')[0]
 for (let i = 0; i < as.length; i++) {
     as[i].addEventListener('mouseenter', function () {
-        animation[0].className = 'animation start-' + this.innerHTML
+        animation.className = 'animation start-' + this.innerHTML
     })
 }
 
@@ -141,18 +144,14 @@ for (let i = 0; i < as.length; i++) {
 let banner = document.getElementsByClassName('banner')[0]
 let bannerImg = document.getElementsByClassName('banner-img')[0]
 let imgWidth = bannerImg.offsetWidth
-//轮播图片
 let liUl = bannerImg.children
 
-//生成小方块
 let jumpBtn = document.getElementsByClassName('jump-btn')[0].children[0]
 for (let i = 0; i < liUl.length; i++) {
     let li = document.createElement('li')
     jumpBtn.appendChild(li)
 }
-//克隆第一张图片
 bannerImg.appendChild(liUl[0].cloneNode(true))
-//动态生成轮播长度
 bannerImg.style.width = liUl.length * imgWidth + 'px'
 let pic = 0
 let liOl = jumpBtn.children
@@ -175,7 +174,6 @@ for (let i = 0; i < liOl.length; i++) {
 let arrLeft = document.getElementById('left')
 arrLeft.onclick = function () {
     if (pic == 0) {
-        //让图片变成假图
         bannerImg.style.left = -imgWidth * (liUl.length - 1) + 'px'
         pic = liOl.length
     }
@@ -206,16 +204,11 @@ arrRight.onclick = function () {
 function animate(tag, target) {
     clearInterval(tag.timer)
     tag.timer = setInterval(function () {
-        // 取值时，会进行四舍五入
         var leader = tag.offsetLeft
-        // var step = 10;//步长是固定值，导致运动是匀速效果
-        // 缓动公式： （目标位置 - 当前位置）/10
         var step = (target - leader) / 10
-        // 对step进行取整操作
         step = step > 0 ? Math.ceil(step) : Math.floor(step)
         leader = leader + step
         tag.style.left = leader + 'px'
-        // 尽管盒子会在到达位置时停住但是我们还要清除定时器
         if (leader == target) {
             clearInterval(tag.timer)
         }
