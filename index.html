@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/iconfont.css" />
+    </head>
+    <body>
+        <nav>
+            <div class="main">
+                <button class="btn-logo">LOGO</button>
+                <button class="btn-right">Log Out</button>
+                <div class="icon">
+                    <i class="iconfont" id="setting">&#xe611;</i>
+                    <i class="iconfont" id="notice">&#xe636;</i>
+                </div>
+            </div>
+        </nav>
+        <div class="header main">
+            <div class="header-left">
+                <h4>Audience Overview</h4>
+                <h3>Roseville,CA</h3>
+            </div>
+            <div class="header-right">
+                <a href="#">dashboard</a>
+                <a href="#">projects</a>
+                <a href="#">calendar</a>
+                <a href="#">mailbox</a>
+                <a href="#">settings</a>
+                <div class="animation start-dashboard"></div>
+            </div>
+        </div>
+        <div class="content main">
+            <div class="content-left">
+                <div class="banner">
+                    <ul class="banner-img">
+                        <li>
+                            <img src="image/1.jpg" />
+                        </li>
+                        <li>
+                            <img src="image/2.jpg" />
+                        </li>
+                        <li>
+                            <img src="image/3.jpg" />
+                        </li>
+                    </ul>
+                    <div class="jump-btn">
+                        <ol></ol>
+                    </div>
+                    <div id="arr">
+                        <span id="left">&lt;</span>
+                        <span id="right">&gt;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="top">
+                    <span>Support Request</span>
+                    <button class="content-btn">View All</button>
+                </div>
+                <hr />
+                <div class="bottom">
+                    <table>
+                        <tr>
+                            <td>TIME</td>
+                            <td>USER NAME</td>
+                            <td>STATUS</td>
+                        </tr>
+                        <tr>
+                            <td>9:45pm</td>
+                            <td>info@design.com</td>
+                            <td><button>Solved</button></td>
+                        </tr>
+                        <tr>
+                            <td>9:45pm</td>
+                            <td>info@design.com</td>
+                            <td><button>Solved</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="echart-data main">
+            <div id="line-echart" style="width: 1040px; height: 290px"></div>
+        </div>
+        <div class="echart-data2 main">
+            <div id="pie-echart"></div>
+            <div id="bar-echart"></div>
+        </div>
+        <div class="footer">
+            <div class="main footer-main">
+                <button class="btn-logo" style="margin-top: 0">LOGO</button>
+                <ul>
+                    <li>NEWS</li>
+                    <li>CHANNELS</li>
+                    <li>OVERVIEW</li>
+                    <li>TIMELINE</li>
+                </ul>
+                <ul>
+                    <li>SPORT</li>
+                    <li>CULTURE</li>
+                    <li>NATURE</li>
+                    <li>MUSIC</li>
+                </ul>
+                <ul>
+                    <li>WEATHER</li>
+                    <li>AUTOS</li>
+                    <li>LOCAL</li>
+                    <li>SHOP</li>
+                </ul>
+                <ul>
+                    <li>FUTURE</li>
+                    <li>FOOD</li>
+                    <li>EARTH</li>
+                    <li>TV</li>
+                </ul>
+                <ul>
+                    <li>TRAVEL</li>
+                    <li>RADIO</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script src="js/echarts.js"></script>
+    <script src="js/index.js"></script>
+</html>
